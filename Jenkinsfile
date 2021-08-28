@@ -1,49 +1,42 @@
-def gv 
+@Library('jenkinsdSharedLibrary')
 pipeline {
     agent any
     tools {
         maven 'maven'
     }
     stages {
-        stage("init") {
-            steps {
-                script {
-                    gv = load "script.groovy"
-                }
-            }
-        }
         stage("test") {
             steps {
                 script {
-                    gv.buildApp()
+                    buildJar()
                 }
             }
         }
         stage("DockerLogin") {
             steps {
                 script {
-                    gv.dockerLogin()
+                    dockerLogin()
                 }
             }
         }
         stage("DockerBuild") {
             steps {
                 script {
-                    gv.dockerBuild()
+                    dockerBuild()
                 }
             }
         }
         stage("DockerPush") {
             steps {
                 script {
-                    gv.dockerPush()
+                    dockerPush()
                 }
             }
         }
         stage("Deploy") {
             steps {
                 script {
-                    gv.deployApp()
+                    deployApp()
                 }
             }
         }
